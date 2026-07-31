@@ -1,0 +1,34 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "tabular-recipe-card"
+version = "0.1.0"
+description = "Build a static website of tabular recipe cards from YAML"
+readme = "README.md"
+requires-python = ">=3.11"
+license = { text = "MIT" }
+authors = [{ name = "Tabular Recipe Card contributors" }]
+dependencies = [
+    "PyYAML>=6.0",
+    "Pillow>=10.0",
+]
+
+[project.optional-dependencies]
+export = ["CairoSVG>=2.7"]
+test = ["pytest>=8.0", "CairoSVG>=2.7"]
+
+[project.scripts]
+recipe-card = "recipe_card.cli:main"
+
+[tool.setuptools.packages.find]
+include = ["recipe_card*"]
+
+[tool.setuptools.package-data]
+recipe_card = ["assets/*.css", "assets/*.js"]
+
+[tool.pytest.ini_options]
+addopts = "-ra"
+testpaths = ["tests"]
+pythonpath = ["."]
