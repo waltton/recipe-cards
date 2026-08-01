@@ -1,4 +1,4 @@
-"""Tabular recipe card renderer."""
+"""Recipe Cards website generator and renderer."""
 
 from .exceptions import LayoutError, RecipeValidationError, RenderError
 from .layout import compute_layout

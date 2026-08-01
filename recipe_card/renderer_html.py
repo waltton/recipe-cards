@@ -1,4 +1,4 @@
-"""Accessible HTML renderer for tabular recipe diagrams and pages."""
+"""Accessible HTML renderer for Recipe Cards diagrams and pages."""
 
 from __future__ import annotations
 
@@ -262,7 +262,7 @@ def render_recipe_page(
         </div>
       </div>
       <header class="recipe-heading">
-        <p class="eyebrow">Tabular recipe</p>
+        <p class="eyebrow">Recipe Cards</p>
         <h1>{escape(document.card.title)}</h1>{subtitle}{source}
       </header>
       <section class="diagram-section" aria-label="Recipe process">

@@ -20,7 +20,7 @@ from .validation import validate_output_base, validate_recipe
 def _legacy_parser() -> argparse.ArgumentParser:
     """Create the original one-recipe parser for backwards compatibility."""
 
-    parser = argparse.ArgumentParser(description="Render a tabular recipe card from YAML.")
+    parser = argparse.ArgumentParser(description="Render a Recipe Cards diagram from YAML.")
     parser.add_argument("recipe", type=Path, help="input YAML recipe")
     parser.add_argument("--output", type=Path, help="output path without extension")
     parser.add_argument("--format", choices=("svg", "png", "both"), default="both", help="output format (default: both)")
@@ -34,7 +34,7 @@ def _legacy_parser() -> argparse.ArgumentParser:
 def build_parser() -> argparse.ArgumentParser:
     """Create the command-oriented public CLI parser."""
 
-    parser = argparse.ArgumentParser(description="Build a static website of tabular recipes from YAML.")
+    parser = argparse.ArgumentParser(description="Build a Recipe Cards website from YAML.")
     commands = parser.add_subparsers(dest="command", required=True)
 
     build = commands.add_parser("build", help="compile recipe YAML into a static website")

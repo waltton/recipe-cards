@@ -1,8 +1,8 @@
 Metadata-Version: 2.4
 Name: tabular-recipe-card
 Version: 0.1.0
-Summary: Build a static website of tabular recipe cards from YAML
-Author: Tabular Recipe Card contributors
+Summary: Build a Recipe Cards website from YAML
+Author: Recipe Cards contributors
 License: MIT
 Requires-Python: >=3.11
 Description-Content-Type: text/markdown
@@ -16,7 +16,7 @@ Requires-Dist: pytest>=8.0; extra == "test"
 Requires-Dist: CairoSVG>=2.7; extra == "test"
 Dynamic: license-file
 
-# Tabular Recipe Static Site Generator
+# Recipe Cards
 
 Turn a directory of YAML recipes into a complete static website. Like Jekyll, the source is plain text and the output is a folder of HTML and CSS that can be served anywhere. Each recipe gets a responsive page with a Cooking for Engineers-style process diagram: ingredients begin as separate rows, actions extend to the right, and branches merge into the finished dish.
 

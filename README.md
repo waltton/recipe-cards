@@ -1,4 +1,4 @@
-# Tabular Recipe Static Site Generator
+# Recipe Cards
 
 Turn a directory of YAML recipes into a complete static website. Like Jekyll, the source is plain text and the output is a folder of HTML and CSS that can be served anywhere. Each recipe gets a responsive page with a Cooking for Engineers-style process diagram: ingredients begin as separate rows, actions extend to the right, and branches merge into the finished dish.
 

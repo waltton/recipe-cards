@@ -5,11 +5,11 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "tabular-recipe-card"
 version = "0.1.0"
-description = "Build a static website of tabular recipe cards from YAML"
+description = "Build a Recipe Cards website from YAML"
 readme = "README.md"
 requires-python = ">=3.11"
 license = { text = "MIT" }
-authors = [{ name = "Tabular Recipe Card contributors" }]
+authors = [{ name = "Recipe Cards contributors" }]
 dependencies = [
     "PyYAML>=6.0",
     "Pillow>=10.0",
