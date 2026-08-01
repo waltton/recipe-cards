@@ -484,6 +484,35 @@ a:focus-visible,
   .mobile-stage-number { color: var(--recipe-accent); font-size: .78rem; font-weight: 800; letter-spacing: .12em; margin: 0; text-transform: uppercase; }
   .mobile-action-list { display: flex; flex-direction: column; gap: .55rem; }
 
+  .mobile-grocery-heading { margin-bottom: .75rem; }
+  .mobile-grocery-heading h3 { font-family: Georgia, "Times New Roman", serif; font-size: 1.65rem; line-height: 1.05; margin: 0; }
+  .mobile-grocery-heading p { color: var(--recipe-secondary); font-size: .82rem; margin: .25rem 0 0; }
+  .mobile-grocery-list { display: grid; gap: .4rem; list-style: none; margin: 0; padding: 0; }
+
+  .mobile-grocery-item {
+    background: var(--cell-background, #fff);
+    border-left: 4px solid var(--recipe-accent);
+  }
+
+  .mobile-grocery-item label {
+    align-items: center;
+    cursor: pointer;
+    display: flex;
+    gap: .65rem;
+    min-height: 44px;
+    padding: .55rem .7rem;
+  }
+
+  .mobile-grocery-item input {
+    accent-color: var(--recipe-accent);
+    flex: none;
+    height: 1.15rem;
+    margin: 0;
+    width: 1.15rem;
+  }
+
+  .mobile-grocery-item input:checked + span { color: var(--recipe-secondary); text-decoration: line-through; }
+
   .mobile-action {
     background: var(--cell-background, #fff);
     border-left: 4px solid var(--recipe-accent);

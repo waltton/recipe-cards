@@ -208,12 +208,60 @@
           <p>Swipe through the recipe</p>
           <div class="mobile-stage-controls">
             <button type="button" data-stage-previous aria-label="Previous stage" disabled>←</button>
-            <span data-stage-position aria-live="polite">Stage 1 of 5</span>
+            <span data-stage-position aria-live="polite">Stage 0 of 5</span>
             <button type="button" data-stage-next aria-label="Next stage">→</button>
           </div>
         </header>
         <div class="mobile-stage-track" data-stage-track role="list" tabindex="0">
-      <section class="mobile-stage" role="listitem">
+      <section class="mobile-stage mobile-grocery-stage" data-stage-number="0" role="listitem">
+        <header class="mobile-stage-heading">
+          <h2 class="mobile-stage-number">Stage 0</h2>
+          <span>12 ingredients</span>
+        </header>
+        <div class="mobile-grocery-heading">
+          <h3>Groceries</h3>
+          <p>Check off ingredients as you shop.</p>
+        </div>
+        <ul class="mobile-grocery-list">
+          <li class="mobile-grocery-item">
+            <label><input type="checkbox" data-grocery-id="pasta"><span>340g pasta</span></label>
+          </li>
+          <li class="mobile-grocery-item">
+            <label><input type="checkbox" data-grocery-id="chicken"><span>500g chicken breast</span></label>
+          </li>
+          <li class="mobile-grocery-item">
+            <label><input type="checkbox" data-grocery-id="salt_pepper"><span>salt + pepper to taste</span></label>
+          </li>
+          <li class="mobile-grocery-item">
+            <label><input type="checkbox" data-grocery-id="italian_seasoning"><span>1 tsp Italian seasoning</span></label>
+          </li>
+          <li class="mobile-grocery-item">
+            <label><input type="checkbox" data-grocery-id="olive_oil"><span>2 tbsp (30 mL) olive oil</span></label>
+          </li>
+          <li class="mobile-grocery-item">
+            <label><input type="checkbox" data-grocery-id="garlic"><span>2–3 garlic cloves, minced</span></label>
+          </li>
+          <li class="mobile-grocery-item">
+            <label><input type="checkbox" data-grocery-id="sun_dried_tomatoes"><span>1.5 oz (43 g) sun-dried tomatoes</span></label>
+          </li>
+          <li class="mobile-grocery-item">
+            <label><input type="checkbox" data-grocery-id="flour"><span>2 tbsp flour</span></label>
+          </li>
+          <li class="mobile-grocery-item">
+            <label><input type="checkbox" data-grocery-id="milk"><span>2 cups (475 mL) milk</span></label>
+          </li>
+          <li class="mobile-grocery-item">
+            <label><input type="checkbox" data-grocery-id="parmesan"><span>1 cup grated Parmesan</span></label>
+          </li>
+          <li class="mobile-grocery-item">
+            <label><input type="checkbox" data-grocery-id="spinach"><span>2 cups fresh spinach</span></label>
+          </li>
+          <li class="mobile-grocery-item">
+            <label><input type="checkbox" data-grocery-id="garnish"><span>2 tbsp parsley + black pepper</span></label>
+          </li>
+        </ul>
+      </section>
+      <section class="mobile-stage" data-stage-number="1" role="listitem">
         <header class="mobile-stage-heading">
           <h2 class="mobile-stage-number">Stage 1</h2>
           <span>5 actions</span>
@@ -248,7 +296,7 @@ both sides</p>
           </article>
         </div>
       </section>
-      <section class="mobile-stage" role="listitem">
+      <section class="mobile-stage" data-stage-number="2" role="listitem">
         <header class="mobile-stage-heading">
           <h2 class="mobile-stage-number">Stage 2</h2>
           <span>3 actions</span>
@@ -275,7 +323,7 @@ both sides</p>
           </article>
         </div>
       </section>
-      <section class="mobile-stage" role="listitem">
+      <section class="mobile-stage" data-stage-number="3" role="listitem">
         <header class="mobile-stage-heading">
           <h2 class="mobile-stage-number">Stage 3</h2>
           <span>2 actions</span>
@@ -298,7 +346,7 @@ wilt spinach</p>
           </article>
         </div>
       </section>
-      <section class="mobile-stage" role="listitem">
+      <section class="mobile-stage" data-stage-number="4" role="listitem">
         <header class="mobile-stage-heading">
           <h2 class="mobile-stage-number">Stage 4</h2>
           <span>1 action</span>
@@ -315,7 +363,7 @@ pasta
           </article>
         </div>
       </section>
-      <section class="mobile-stage" role="listitem">
+      <section class="mobile-stage" data-stage-number="5" role="listitem">
         <header class="mobile-stage-heading">
           <h2 class="mobile-stage-number">Stage 5</h2>
           <span>1 action</span>

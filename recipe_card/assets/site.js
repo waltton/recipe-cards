@@ -1,6 +1,32 @@
 (() => {
   "use strict";
 
+  const groceryCheckboxes = [...document.querySelectorAll("[data-grocery-id]")];
+  if (groceryCheckboxes.length) {
+    const recipeKey = window.location.pathname.replace(/[^a-z0-9]+/gi, "_").replace(/^_+|_+$/g, "");
+    const cookieName = `recipe_cards_groceries_${recipeKey}`;
+    const cookiePrefix = `${cookieName}=`;
+    const storedCookie = document.cookie
+      .split(";")
+      .map((part) => part.trim())
+      .find((part) => part.startsWith(cookiePrefix));
+    const checkedIds = new Set(
+      storedCookie
+        ? decodeURIComponent(storedCookie.slice(cookiePrefix.length)).split(",").filter(Boolean)
+        : []
+    );
+
+    groceryCheckboxes.forEach((checkbox) => {
+      checkbox.checked = checkedIds.has(checkbox.dataset.groceryId);
+      checkbox.addEventListener("change", () => {
+        const selectedIds = groceryCheckboxes
+          .filter((item) => item.checked)
+          .map((item) => item.dataset.groceryId);
+        document.cookie = `${cookieName}=${encodeURIComponent(selectedIds.join(","))}; Max-Age=31536000; Path=/; SameSite=Lax`;
+      });
+    });
+  }
+
   const scalers = [...document.querySelectorAll(".diagram-scaler")];
   if (!scalers.length) return;
 
@@ -76,7 +102,9 @@
       ), 0);
       if (nearest === active) return;
       active = nearest;
-      position.textContent = `Stage ${active + 1} of ${stages.length}`;
+      const stageNumber = stages[active].dataset.stageNumber ?? String(active);
+      const finalStageNumber = stages[stages.length - 1].dataset.stageNumber ?? String(stages.length - 1);
+      position.textContent = `Stage ${stageNumber} of ${finalStageNumber}`;
       previous.disabled = active === 0;
       next.disabled = active === stages.length - 1;
       stages.forEach((stage, index) => {

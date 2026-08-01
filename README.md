@@ -59,7 +59,7 @@ Recipe filenames become stable URL slugs, recipes are listed alphabetically, and
 
 Individual recipe pages are designed as one-screen workspaces: their outer page does not scroll vertically, and the recipe theme fills the complete viewport. On larger screens, the heading and controls stay compact, the full diagram scales proportionally up or down to use the available width and height, and notes are listed directly beneath the card. Diagrams that remain wider than the viewport retain horizontal scrolling.
 
-Phones use a stage-by-stage view instead of shrinking the complete table into unreadable text. Swipe horizontally—or use the large previous/next controls—to move through process stages. Parallel actions stay grouped, ingredient inputs remain visible on each action, panels snap into place, and the current stage is announced for assistive technology. Rotating the phone switches layouts automatically when more space is available. The recipe index remains a normal vertically scrolling list.
+Phones use a stage-by-stage view instead of shrinking the complete table into unreadable text. Stage 0 presents every ingredient as a grocery checklist; selections are stored for one year in a recipe-specific browser cookie so they survive page refreshes. Swipe horizontally—or use the large previous/next controls—to continue through the cooking stages. Parallel actions stay grouped, ingredient inputs remain visible on each action, panels snap into place, and the current stage is announced for assistive technology. Rotating the phone switches layouts automatically when more space is available. The recipe index remains a normal vertically scrolling list.
 
 ## Deploy with GitHub Pages
 

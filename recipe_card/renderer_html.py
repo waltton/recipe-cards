@@ -142,7 +142,27 @@ def _render_mobile_process(document: RecipeDocument) -> str:
     """Render readable, swipeable process stages for narrow screens."""
 
     row_index = {row.id: index for index, row in enumerate(document.rows)}
-    panels: list[str] = []
+    grocery_items = "\n".join(
+        f"""          <li class="mobile-grocery-item">
+            <label><input type="checkbox" data-grocery-id="{escape(row.id, quote=True)}"><span>{escape(row.label)}</span></label>
+          </li>"""
+        for row in document.rows
+    )
+    grocery_count = len(document.rows)
+    grocery_panel = f"""      <section class="mobile-stage mobile-grocery-stage" data-stage-number="0" role="listitem">
+        <header class="mobile-stage-heading">
+          <h2 class="mobile-stage-number">Stage 0</h2>
+          <span>{grocery_count} {"ingredient" if grocery_count == 1 else "ingredients"}</span>
+        </header>
+        <div class="mobile-grocery-heading">
+          <h3>Groceries</h3>
+          <p>Check off ingredients as you shop.</p>
+        </div>
+        <ul class="mobile-grocery-list">
+{grocery_items}
+        </ul>
+      </section>"""
+    action_panels: list[str] = []
     for stage in document.stages:
         cells = [
             cell
@@ -169,10 +189,11 @@ def _render_mobile_process(document: RecipeDocument) -> str:
             <p class="mobile-instruction">{escape(cell.text)}</p>
           </article>"""
             )
-        panels.append(
-            f"""      <section class="mobile-stage" role="listitem">
+        stage_number = len(action_panels) + 1
+        action_panels.append(
+            f"""      <section class="mobile-stage" data-stage-number="{stage_number}" role="listitem">
         <header class="mobile-stage-heading">
-          <h2 class="mobile-stage-number">Stage {len(panels) + 1}</h2>
+          <h2 class="mobile-stage-number">Stage {stage_number}</h2>
           <span>{len(cells)} {"action" if len(cells) == 1 else "actions"}</span>
         </header>
         <div class="mobile-action-list">
@@ -180,15 +201,16 @@ def _render_mobile_process(document: RecipeDocument) -> str:
         </div>
       </section>"""
         )
-    if not panels:
+    if not action_panels:
         return ""
-    count = len(panels)
+    panels = [grocery_panel, *action_panels]
+    final_stage = len(action_panels)
     return f"""      <section class="mobile-process" data-mobile-process aria-label="Recipe stages">
         <header class="mobile-process-bar">
           <p>Swipe through the recipe</p>
           <div class="mobile-stage-controls">
             <button type="button" data-stage-previous aria-label="Previous stage" disabled>←</button>
-            <span data-stage-position aria-live="polite">Stage 1 of {count}</span>
+            <span data-stage-position aria-live="polite">Stage 0 of {final_stage}</span>
             <button type="button" data-stage-next aria-label="Next stage">→</button>
           </div>
         </header>

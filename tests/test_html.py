@@ -59,8 +59,12 @@ def test_same_recipe_page_renders_identically(hatch_recipe) -> None:
 def test_phone_view_groups_actions_into_swipeable_stages(chicken_recipe) -> None:
     html = render_recipe_page(chicken_recipe, site_title="Recipe Cards")
     assert 'data-mobile-process' in html
-    assert 'data-stage-position aria-live="polite">Stage 1 of 5' in html
-    assert html.count('<section class="mobile-stage" role="listitem">') == 5
+    assert 'data-stage-position aria-live="polite">Stage 0 of 5' in html
+    assert '<section class="mobile-stage mobile-grocery-stage" data-stage-number="0" role="listitem">' in html
+    assert html.count('role="listitem">') == 6
+    assert html.count('type="checkbox" data-grocery-id=') == 12
+    assert "Check off ingredients as you shop." in html
+    assert "340g pasta" in html
     assert "Swipe through the recipe" in html
     assert "cook until\nal dente" in html
 
