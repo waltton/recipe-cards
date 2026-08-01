@@ -4,22 +4,22 @@ The current document version is `1`. Unknown fields are rejected so misspellings
 
 ## Top-level fields
 
-| Field | Type | Required | Meaning |
-| --- | --- | --- | --- |
-| `version` | integer | yes | Must be `1`. |
-| `card` | mapping | yes | Title, metadata, and footer notes. |
-| `canvas` | mapping | no | Fixed dimensions, background, and outer padding. |
-| `theme` | mapping | no | Colors, borders, and typography. |
-| `layout` | mapping | no | Grid and text-fitting defaults. |
-| `ingredients` | mapping | dependency or geometry mode | Ingredient declarations. |
-| `actions` | mapping | dependency mode | Named results with inputs and instructions. |
-| `final` | string | dependency mode | ID of the final action result. |
-| `flow` | mapping | alternate | Nested final-action-rooted recipe tree. |
-| `stages` | mapping or list | geometry mode | Process columns in left-to-right order. |
-| `steps` | list | geometry mode | Compact explicit process rectangles. |
-| `rows` | list | alias | Expanded alternative to `ingredients`. |
-| `cells` | list | alias | Expanded alternative to `steps`. |
-| `notes` | list of strings | no | Additional footer notes after `card.footer`. |
+| Field         | Type            | Required                    | Meaning                                          |
+|---------------|-----------------|-----------------------------|--------------------------------------------------|
+| `version`     | integer         | yes                         | Must be `1`.                                     |
+| `card`        | mapping         | yes                         | Title, metadata, and footer notes.               |
+| `canvas`      | mapping         | no                          | Fixed dimensions, background, and outer padding. |
+| `theme`       | mapping         | no                          | Colors, borders, and typography.                 |
+| `layout`      | mapping         | no                          | Grid and text-fitting defaults.                  |
+| `ingredients` | mapping         | dependency or geometry mode | Ingredient declarations.                         |
+| `actions`     | mapping         | dependency mode             | Named results with inputs and instructions.      |
+| `final`       | string          | dependency mode             | ID of the final action result.                   |
+| `flow`        | mapping         | alternate                   | Nested final-action-rooted recipe tree.          |
+| `stages`      | mapping or list | geometry mode               | Process columns in left-to-right order.          |
+| `steps`       | list            | geometry mode               | Compact explicit process rectangles.             |
+| `rows`        | list            | alias                       | Expanded alternative to `ingredients`.           |
+| `cells`       | list            | alias                       | Expanded alternative to `steps`.                 |
+| `notes`       | list of strings | no                          | Additional footer notes after `card.footer`.     |
 
 Use one authoring mode: the recommended `ingredients` + `actions` + `final` dependency map, nested `flow`, or explicit geometry. Geometry mode requires exactly one of `ingredients` or `rows`, `stages`, and exactly one of `steps` or `cells`. Modes cannot be mixed.
 
@@ -35,37 +35,37 @@ Use one authoring mode: the recommended `ingredients` + `actions` + `final` depe
 
 ## `theme`
 
-| Field | Default |
-| --- | --- |
-| `border_color` | `#4b9847` |
-| `border_width` | `6` |
-| `outer_border_width` | unset; use normal deduplicated edges |
-| `cell_background` | `#ffffff` |
-| `background` | `#fffde8` |
-| `text_color` | `#111111` |
-| `secondary_text_color` | `#4a4a4a` |
-| `font_family` | `[DejaVu Sans, Arial, sans-serif]` |
-| `title_size` | `56` |
-| `subtitle_size` | `28` |
-| `cell_text_size` | `30` |
-| `footer_size` | `23` |
+| Field                  | Default                              |
+|------------------------|--------------------------------------|
+| `border_color`         | `#4b9847`                            |
+| `border_width`         | `6`                                  |
+| `outer_border_width`   | unset; use normal deduplicated edges |
+| `cell_background`      | `#ffffff`                            |
+| `background`           | `#fffde8`                            |
+| `text_color`           | `#111111`                            |
+| `secondary_text_color` | `#4a4a4a`                            |
+| `font_family`          | `[DejaVu Sans, Arial, sans-serif]`   |
+| `title_size`           | `56`                                 |
+| `subtitle_size`        | `28`                                 |
+| `cell_text_size`       | `30`                                 |
+| `footer_size`          | `23`                                 |
 
 Colors accept `#RGB`, `#RGBA`, `#RRGGBB`, or `#RRGGBBAA`. Generated pages and optional SVG exports contain only a font-family fallback list; they do not fetch external font resources. `outer_border_width`, when set, draws a complete grid perimeter at that width.
 
 ## `layout`
 
-| Field | Default | Constraint |
-| --- | ---: | --- |
-| `ingredient_column_width` | automatic | optional positive fixed override |
-| `ingredient_column_min_width` | 500 | positive automatic lower bound |
-| `ingredient_column_max_width` | 640 | positive automatic upper bound |
-| `default_stage_width` | 280 | positive |
-| `row_height` | 72 | positive minimum for auto-sized rows |
-| `title_height` | 145 | positive minimum |
-| `footer_height` | 75 | non-negative minimum when notes exist |
-| `cell_padding` | 16 | non-negative |
-| `text_line_spacing` | 1.12 | positive multiplier |
-| `min_font_size` | 18 | positive |
+| Field                         |   Default | Constraint                            |
+|-------------------------------|----------:|---------------------------------------|
+| `ingredient_column_width`     | automatic | optional positive fixed override      |
+| `ingredient_column_min_width` |       500 | positive automatic lower bound        |
+| `ingredient_column_max_width` |       640 | positive automatic upper bound        |
+| `default_stage_width`         |       280 | positive                              |
+| `row_height`                  |        72 | positive minimum for auto-sized rows  |
+| `title_height`                |       145 | positive minimum                      |
+| `footer_height`               |        75 | non-negative minimum when notes exist |
+| `cell_padding`                |        16 | non-negative                          |
+| `text_line_spacing`           |      1.12 | positive multiplier                   |
+| `min_font_size`               |        18 | positive                              |
 
 When `ingredient_column_width` is omitted, the renderer measures the widest ingredient label at `theme.cell_text_size`, adds horizontal cell padding, and clamps the result to the configured minimum and maximum. The title and footer areas grow when wrapped content needs more room. `row_height` is the minimum for rows without an explicit height; `default_stage_width` applies to stages without a width override.
 
@@ -184,17 +184,17 @@ stages:
 
 Every step requires `stage` and `rows`. A single ID occupies one stage or row; `start..end` denotes an inclusive span that must follow document order. `text` defaults to an empty string, which makes waiting cells concise. Step IDs are generated by list position (`step_1`, `step_2`, …); `id` is optional.
 
-| Optional field | Default | Values |
-| --- | --- | --- |
-| `id` | generated | valid stable ID |
-| `text` | empty string | string |
-| `font_size` | `theme.cell_text_size` | positive integer |
+| Optional field  | Default                | Values                                      |
+|-----------------|------------------------|---------------------------------------------|
+| `id`            | generated              | valid stable ID                             |
+| `text`          | empty string           | string                                      |
+| `font_size`     | `theme.cell_text_size` | positive integer                            |
 | `min_font_size` | `layout.min_font_size` | positive integer no larger than `font_size` |
-| `font_weight` | `normal` | `normal`, `bold`, or `100` through `900` |
-| `align` | `center` | `left`, `center`, `right` |
-| `valign` | `middle` | `top`, `middle`, `bottom` |
-| `padding` | `layout.cell_padding` | non-negative integer |
-| `allow_overlap` | `false` | boolean |
+| `font_weight`   | `normal`               | `normal`, `bold`, or `100` through `900`    |
+| `align`         | `center`               | `left`, `center`, `right`                   |
+| `valign`        | `middle`               | `top`, `middle`, `bottom`                   |
+| `padding`       | `layout.cell_padding`  | non-negative integer                        |
+| `allow_overlap` | `false`                | boolean                                     |
 
 For example, this step spans three stages and two ingredient rows:
 
