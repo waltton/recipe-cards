@@ -1,0 +1,130 @@
+version: 1
+
+card:
+  title: Chicken Spinach Pasta
+  subtitle: serves 4 • prep 5 min • cook 25 min • total 30 min
+  source: Healthy Fitness Meals
+  footer:
+    - Cook pasta according to its package directions.
+    - Chicken is done at 165°F / 74°C.
+
+canvas:
+  background: "#fffde8"
+  padding:
+    top: 32
+    right: 40
+    bottom: 30
+    left: 40
+
+theme:
+  border_color: "#4b9847"
+  border_width: 6
+  cell_background: "#ffffff"
+  text_color: "#111111"
+  secondary_text_color: "#4a4a4a"
+  font_family:
+    - DejaVu Sans
+    - Arial
+    - sans-serif
+  title_size: 56
+  subtitle_size: 28
+  cell_text_size: 30
+  footer_size: 23
+
+layout:
+  default_stage_width: 280
+  row_height: 72
+  title_height: 145
+  footer_height: 75
+  cell_padding: 16
+  text_line_spacing: 1.12
+
+ingredients:
+  pasta: 340g pasta
+  chicken: 500g chicken breast
+  salt_pepper: salt + pepper to taste
+  italian_seasoning: 1 tsp Italian seasoning
+  olive_oil: 2 tbsp (30 mL) olive oil
+  garlic: 2–3 garlic cloves, minced
+  sun_dried_tomatoes: 1.5 oz (43 g) sun-dried tomatoes
+  flour: 2 tbsp flour
+  milk: 2 cups (475 mL) milk
+  parmesan: 1 cup grated Parmesan
+  spinach: 2 cups fresh spinach
+  garnish: 2 tbsp parsley + black pepper
+
+actions:
+  pasta_cooked:
+    from: pasta
+    do: |-
+      cook until
+      al dente
+
+  pasta_ready:
+    from: pasta_cooked
+    do: drain; set aside
+
+  seasoned_chicken:
+    from: [chicken, salt_pepper, italian_seasoning]
+    do: |-
+      season
+      both sides
+
+  chicken_cooked:
+    from: [seasoned_chicken, olive_oil]
+    do: |-
+      cook in skillet
+      6–8 min per side
+
+      165°F / 74°C
+
+  chicken_ready:
+    from: chicken_cooked
+    do: |-
+      rest briefly;
+      slice thinly
+
+  prepared_aromatics:
+    from: [garlic, sun_dried_tomatoes]
+    do: prepare aromatics
+
+  aromatics:
+    from: prepared_aromatics
+    do: |-
+      sauté in same pan
+      1–2 min
+
+  milk_mixture:
+    from: [flour, milk, parmesan]
+    do: whisk until smooth
+
+  sauce:
+    from: [aromatics, milk_mixture, spinach]
+    do: |-
+      add milk mixture
+      + spinach
+
+      bubble until thick;
+      wilt spinach
+
+  combined:
+    from: [pasta_ready, chicken_ready, sauce]
+    do: |-
+      stir together
+
+      pasta
+      + sauce
+      + sliced chicken
+
+  garnish_ready:
+    from: garnish
+    do: chop parsley; grind pepper
+
+  serve:
+    from: [combined, garnish_ready]
+    do: |-
+      top
+      and
+      serve
+
+final: serve

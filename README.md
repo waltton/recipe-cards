@@ -53,9 +53,6 @@ _site/
     ├── chicken-spinach-pasta/
     │   ├── index.html
     │   └── recipe.yaml
-    └── hatch-chile-truffles/
-        ├── index.html
-        └── recipe.yaml
 ```
 
 Recipe filenames become stable URL slugs, recipes are listed alphabetically, and the original YAML is copied beside each generated page for download.
@@ -66,16 +63,24 @@ Phones use a stage-by-stage view instead of shrinking the complete table into un
 
 ## Deploy with GitHub Pages
 
-The repository includes `.github/workflows/pages.yml`. On every push to `main`, GitHub Actions installs the generator, validates all recipes, builds `_site`, uploads it as a Pages artifact, and deploys it. The workflow can also be started manually from the Actions tab.
+Build the static site locally into `docs` and commit the generated files:
+
+```bash
+recipe-card validate examples
+recipe-card build examples --output docs
+git add docs
+git commit -m "Update published recipe site"
+git push
+```
 
 To enable the first deployment:
 
 1. Push the repository to GitHub.
 2. Open **Settings → Pages** in the repository.
-3. Under **Build and deployment**, choose **GitHub Actions** as the source.
-4. Push to `main` or run **Build and deploy recipe site** from the Actions tab.
+3. Under **Build and deployment**, choose **Deploy from a branch** as the source.
+4. Select the `main` branch and the `/docs` folder, then save.
 
-The generated links are relative, so the same output works for both `username.github.io` and project sites such as `username.github.io/repository/`. To publish a different recipe directory, change the `validate` and `build` commands in the workflow together.
+GitHub Pages publishes the committed files without running the Python generator. Rebuild and commit `docs` whenever a recipe or site asset changes. The generated links are relative, so the same output works for both `username.github.io` and project sites such as `username.github.io/repository/`.
 
 ## Site configuration
 
