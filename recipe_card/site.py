@@ -160,6 +160,8 @@ def render_index_page(config: SiteConfig, recipes: tuple[SiteRecipe, ...]) -> st
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="{escape(config.description, quote=True)}">
   <title>{escape(config.title)}</title>
+  <link rel="icon" type="image/png" href="assets/favicon.png">
+  <link rel="apple-touch-icon" href="assets/favicon.png">
   <link rel="stylesheet" href="assets/site.css">
 </head>
 <body>
@@ -179,6 +181,11 @@ def render_index_page(config: SiteConfig, recipes: tuple[SiteRecipe, ...]) -> st
 {chr(10).join(cards)}
       </ul>
     </section>
+    <section class="site-credit" aria-labelledby="site-credit-title">
+      <p class="eyebrow">Inspiration</p>
+      <h2 id="site-credit-title">Inspired by Cooking for Engineers</h2>
+      <p>Recipe Cards was inspired by Michael Chu&rsquo;s tabular presentation of cooking steps at <a href="https://www.cookingforengineers.com/" rel="external">Cooking for Engineers</a>. This independent project is not affiliated with or endorsed by Cooking for Engineers or CFE Enterprises, Inc., and does not reproduce its recipe content. See their <a href="https://www.cookingforengineers.com/article/190/User-Agreement" rel="external">User Agreement</a> for terms governing use of their site.</p>
+    </section>
   </main>
 </body>
 </html>
@@ -189,6 +196,14 @@ def _write_text(path: Path, content: str) -> None:
     try:
         path.parent.mkdir(parents=True, exist_ok=True)
         path.write_text(content, encoding="utf-8")
+    except OSError as exc:
+        raise RenderError(f"cannot write generated file '{path}': {exc}") from exc
+
+
+def _write_bytes(path: Path, content: bytes) -> None:
+    try:
+        path.parent.mkdir(parents=True, exist_ok=True)
+        path.write_bytes(content)
     except OSError as exc:
         raise RenderError(f"cannot write generated file '{path}': {exc}") from exc
 
@@ -213,6 +228,7 @@ def build_site(
     try:
         stylesheet = files("recipe_card").joinpath("assets/site.css").read_text(encoding="utf-8")
         script = files("recipe_card").joinpath("assets/site.js").read_text(encoding="utf-8")
+        favicon = files("recipe_card").joinpath("assets/favicon.png").read_bytes()
     except OSError as exc:
         raise RenderError(f"cannot load bundled site asset: {exc}") from exc
     rendered_recipes: list[tuple[SiteRecipe, str, str]] = []
@@ -230,6 +246,7 @@ def build_site(
     _write_text(destination / "index.html", render_index_page(config, recipes))
     _write_text(destination / "assets" / "site.css", stylesheet)
     _write_text(destination / "assets" / "site.js", script)
+    _write_bytes(destination / "assets" / "favicon.png", favicon)
     for recipe, page, yaml_source in rendered_recipes:
         recipe_dir = destination / "recipes" / recipe.slug
         _write_text(recipe_dir / "index.html", page)

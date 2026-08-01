@@ -122,6 +122,23 @@ a:focus-visible,
 .recipe-card p { color: var(--muted); margin: 0; }
 .recipe-card .card-source { font-size: .84rem; margin-top: 1rem; }
 
+.site-credit {
+  border-top: 1px solid var(--line);
+  margin-top: clamp(3rem, 7vw, 7rem);
+  max-width: 760px;
+  padding-top: clamp(1.5rem, 3vw, 2.5rem);
+}
+
+.site-credit h2 {
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(1.5rem, 3vw, 2.25rem);
+  line-height: 1.1;
+  margin: 0;
+}
+
+.site-credit p:last-child { color: var(--muted); margin: 1rem 0 0; }
+.site-credit a { color: var(--ink); text-underline-offset: .2em; }
+
 .recipe-page {
   --accent: var(--recipe-accent);
   background: var(--recipe-background);
@@ -313,23 +330,20 @@ a:focus-visible,
   z-index: 4;
 }
 
-.recipe-notes { color: var(--recipe-secondary); position: relative; }
-.recipe-notes[open] { z-index: 20; }
-.recipe-notes summary { cursor: pointer; font-weight: 700; }
+.recipe-notes {
+  border-top: 1px solid color-mix(in srgb, var(--recipe-accent) 35%, transparent);
+  color: var(--recipe-secondary);
+  flex: none;
+  margin-top: clamp(.5rem, 1.4vh, .9rem);
+  padding: clamp(.5rem, 1.4vh, .8rem) 0 .15rem;
+}
 
-.notes-panel {
-  background: var(--recipe-background);
-  border: 1px solid var(--recipe-accent);
-  box-shadow: 0 12px 35px rgba(20, 30, 22, .18);
+.recipe-notes h2 {
   color: var(--recipe-text);
-  max-height: min(55vh, 420px);
-  overflow: auto;
-  padding: 1rem 1.2rem;
-  position: absolute;
-  right: 0;
-  top: calc(100% + .55rem);
-  white-space: normal;
-  width: min(420px, calc(100vw - 2rem));
+  font-size: .82rem;
+  letter-spacing: .08em;
+  margin: 0 0 .3rem;
+  text-transform: uppercase;
 }
 
 .recipe-notes ul { margin: 0; padding-left: 1.2em; }
@@ -364,11 +378,13 @@ a:focus-visible,
   .breadcrumbs > span { display: none; }
   .breadcrumbs a { display: inline-flex; min-height: 44px; align-items: center; }
   .recipe-tools { gap: .65rem; }
-  .recipe-notes summary { align-items: center; display: inline-flex; min-height: 44px; }
   .recipe-tools .text-link { font-size: 0; }
   .recipe-tools .text-link { align-items: center; display: inline-flex; min-height: 44px; }
   .recipe-tools .text-link::after { content: "YAML"; font-size: .82rem; }
-  .notes-panel { max-height: 65dvh; right: -.25rem; }
+  .recipe-notes { margin-top: .45rem; padding-top: .5rem; }
+  .recipe-notes h2 { margin-bottom: .2rem; }
+  .recipe-notes ul { font-size: .86rem; }
+  .recipe-notes li + li { margin-top: .2rem; }
 
   .recipe-heading { margin: .2rem 0 .55rem; }
   .recipe-heading .eyebrow { display: none; }
@@ -519,10 +535,7 @@ a:focus-visible,
 @media print {
   @page { margin: .35in; size: landscape; }
   :root, html, body, .recipe-body { background: #fff; height: auto; overflow: visible; }
-  .site-header, .breadcrumbs, .recipe-tools > .text-link, .recipe-notes summary { display: none; }
-  .recipe-toolbar, .recipe-tools { display: block; }
-  details.recipe-notes:not([open]) > .notes-panel { display: block !important; }
-  .notes-panel { border: 0; box-shadow: none; max-height: none; padding: 0 0 .2in 1em; position: static; width: auto; }
+  .site-header, .recipe-toolbar { display: none; }
   .page-shell, .recipe-page { margin: 0; max-width: none; padding: 0; }
   .recipe-heading { margin-bottom: .25in; }
   .recipe-heading h1 { font-size: 32pt; }
@@ -531,6 +544,7 @@ a:focus-visible,
   .diagram-scaler { height: var(--diagram-height) !important; width: var(--diagram-width) !important; }
   .recipe-diagram { break-inside: avoid; transform: none !important; }
   .mobile-process { display: none !important; }
+  .recipe-notes { border-top: 0; margin-top: .2in; padding: 0; }
 }
 
 @media (prefers-reduced-motion: reduce) {

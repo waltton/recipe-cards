@@ -57,7 +57,7 @@ _site/
 
 Recipe filenames become stable URL slugs, recipes are listed alphabetically, and the original YAML is copied beside each generated page for download.
 
-Individual recipe pages are designed as one-screen workspaces: their outer page does not scroll vertically, and the recipe theme fills the complete viewport. On larger screens, the heading and controls stay compact, notes open as an overlay, and the full diagram scales proportionally up or down to use the available width and height. Diagrams that remain wider than the viewport retain horizontal scrolling.
+Individual recipe pages are designed as one-screen workspaces: their outer page does not scroll vertically, and the recipe theme fills the complete viewport. On larger screens, the heading and controls stay compact, the full diagram scales proportionally up or down to use the available width and height, and notes are listed directly beneath the card. Diagrams that remain wider than the viewport retain horizontal scrolling.
 
 Phones use a stage-by-stage view instead of shrinking the complete table into unreadable text. Swipe horizontally—or use the large previous/next controls—to move through process stages. Parallel actions stay grouped, ingredient inputs remain visible on each action, panels snap into place, and the current stage is announced for assistive technology. Rotating the phone switches layouts automatically when more space is available. The recipe index remains a normal vertically scrolling list.
 
@@ -81,6 +81,10 @@ To enable the first deployment:
 4. Select the `main` branch and the `/docs` folder, then save.
 
 GitHub Pages publishes the committed files without running the Python generator. Rebuild and commit `docs` whenever a recipe or site asset changes. The generated links are relative, so the same output works for both `username.github.io` and project sites such as `username.github.io/repository/`.
+
+## Inspiration
+
+The visual recipe-card approach was inspired by Michael Chu's [Cooking for Engineers](https://www.cookingforengineers.com/). Recipe Cards is an independent project, is not affiliated with or endorsed by Cooking for Engineers or CFE Enterprises, Inc., and does not reproduce its recipe content. Their [User Agreement](https://www.cookingforengineers.com/article/190/User-Agreement) governs use of material from their site.
 
 ## Site configuration
 

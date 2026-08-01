@@ -20,15 +20,14 @@ def test_build_site_writes_index_pages_stylesheet_and_sources(tmp_path: Path) ->
     destination = tmp_path / "_site"
     result = build_site(ROOT / "examples", destination, site_title="Kitchen Notebook")
 
-    assert len(result.recipes) == 2
+    assert len(result.recipes) == 1
     expected = {
         Path("index.html"),
         Path("assets/site.css"),
         Path("assets/site.js"),
+        Path("assets/favicon.png"),
         Path("recipes/chicken-spinach-pasta/index.html"),
         Path("recipes/chicken-spinach-pasta/recipe.yaml"),
-        Path("recipes/hatch-chile-truffles/index.html"),
-        Path("recipes/hatch-chile-truffles/recipe.yaml"),
     }
     assert {path.relative_to(destination) for path in destination.rglob("*") if path.is_file()} == expected
 
@@ -40,6 +39,9 @@ def test_build_site_writes_index_pages_stylesheet_and_sources(tmp_path: Path) ->
     index = (destination / "index.html").read_text(encoding="utf-8")
     assert "Kitchen Notebook" in index
     assert 'href="recipes/chicken-spinach-pasta/"' in index
+    assert 'href="assets/favicon.png"' in index
+    assert "Inspired by Cooking for Engineers" in index
+    assert 'href="https://www.cookingforengineers.com/"' in index
     recipe_page = (destination / "recipes/chicken-spinach-pasta/index.html").read_text(encoding="utf-8")
     assert 'href="../../assets/site.css"' in recipe_page
     assert 'src="../../assets/site.js"' in recipe_page
@@ -76,4 +78,4 @@ def test_cli_builds_a_site(tmp_path: Path, capsys) -> None:
     destination = tmp_path / "public"
     assert main(["build", str(ROOT / "examples"), "--output", str(destination)]) == 0
     assert (destination / "index.html").is_file()
-    assert "Built 2 recipe(s)" in capsys.readouterr().out
+    assert "Built 1 recipe(s)" in capsys.readouterr().out

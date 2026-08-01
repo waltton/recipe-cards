@@ -45,6 +45,7 @@ final: fry
     assert "salt &amp; pepper &lt;optional&gt;" in html
     assert "heat &lt; oil &amp; fry" in html
     assert '<body class="recipe-body has-mobile-process" style="--recipe-background:' in html
+    assert '<link rel="icon" type="image/png" href="../../assets/favicon.png">' in html
     assert '<script src="../../assets/site.js"></script>' in html
     assert "<svg" not in html
 
@@ -62,3 +63,15 @@ def test_phone_view_groups_actions_into_swipeable_stages(chicken_recipe) -> None
     assert html.count('<section class="mobile-stage" role="listitem">') == 5
     assert "Swipe through the recipe" in html
     assert "cook until\nal dente" in html
+
+
+def test_notes_render_after_the_card_without_a_dropdown(chicken_recipe) -> None:
+    html = render_recipe_page(chicken_recipe, site_title="Recipe Cards")
+    notes = '<section class="recipe-notes" aria-labelledby="recipe-notes-title">'
+    assert notes in html
+    assert html.index(notes) > html.index('<section class="diagram-section"')
+    assert html.index(notes) > html.index('<section class="mobile-process"')
+    assert "Cook pasta according to its package directions." in html
+    assert "<details" not in html
+    assert "<summary" not in html
+    assert "notes-panel" not in html

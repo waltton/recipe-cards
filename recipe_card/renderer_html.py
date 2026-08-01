@@ -204,6 +204,7 @@ def render_recipe_page(
     site_title: str,
     stylesheet_href: str = "../../assets/site.css",
     script_href: str = "../../assets/site.js",
+    favicon_href: str = "../../assets/favicon.png",
     home_href: str = "../../index.html",
     source_href: str = "recipe.yaml",
 ) -> str:
@@ -226,18 +227,14 @@ def render_recipe_page(
     source = f'\n        <p class="recipe-source">Source: {escape(document.card.source)}</p>' if document.card.source else ""
     notes = ""
     if document.footer_notes:
-        items = "\n".join(f"          <li>{escape(note)}</li>" for note in document.footer_notes)
-        count = len(document.footer_notes)
-        label = "1 note" if count == 1 else f"{count} notes"
+        items = "\n".join(f"        <li>{escape(note)}</li>" for note in document.footer_notes)
         notes = f"""
-          <details class="recipe-notes">
-            <summary>{label}</summary>
-            <div class="notes-panel">
-              <ul>
+      <section class="recipe-notes" aria-labelledby="recipe-notes-title">
+        <h2 id="recipe-notes-title">Notes</h2>
+        <ul>
 {items}
-              </ul>
-            </div>
-          </details>"""
+        </ul>
+      </section>"""
     description = document.card.subtitle or f"A tabular process diagram for {document.card.title}."
     body_class = "recipe-body has-mobile-process" if mobile_process else "recipe-body"
     return f"""<!doctype html>
@@ -247,6 +244,8 @@ def render_recipe_page(
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="{escape(description, quote=True)}">
   <title>{escape(document.card.title)} · {escape(site_title)}</title>
+  <link rel="icon" type="image/png" href="{escape(favicon_href, quote=True)}">
+  <link rel="apple-touch-icon" href="{escape(favicon_href, quote=True)}">
   <link rel="stylesheet" href="{escape(stylesheet_href, quote=True)}">
 </head>
 <body class="{body_class}" style="{escape(page_style, quote=True)}">
@@ -257,7 +256,7 @@ def render_recipe_page(
     <article class="recipe-page">
       <div class="recipe-toolbar">
         <nav class="breadcrumbs" aria-label="Breadcrumb"><a href="{escape(home_href, quote=True)}">All recipes</a><span aria-hidden="true">/</span><span>{escape(document.card.title)}</span></nav>
-        <div class="recipe-tools">{notes}
+        <div class="recipe-tools">
           <a class="text-link" href="{escape(source_href, quote=True)}" download>Download YAML</a>
         </div>
       </div>
@@ -269,6 +268,7 @@ def render_recipe_page(
 {diagram}
       </section>
 {mobile_process}
+{notes}
     </article>
   </main>
   <script src="{escape(script_href, quote=True)}"></script>

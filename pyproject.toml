@@ -26,7 +26,7 @@ recipe-card = "recipe_card.cli:main"
 include = ["recipe_card*"]
 
 [tool.setuptools.package-data]
-recipe_card = ["assets/*.css", "assets/*.js"]
+recipe_card = ["assets/*.css", "assets/*.js", "assets/*.png"]
 
 [tool.pytest.ini_options]
 addopts = "-ra"
