@@ -67,6 +67,16 @@ def test_phone_view_groups_actions_into_swipeable_stages(chicken_recipe) -> None
     assert "340g pasta" in html
     assert "Swipe through the recipe" in html
     assert "cook until\nal dente" in html
+    assert 'data-action-id="pasta_cooked"' in html
+    assert html.count('class="mobile-action"') == 12
+    assert 'data-flow-result="serve"' in html
+    assert 'data-flow-result="sauce"' in html
+    assert html.count('data-flow-result="combined"') == 3
+    assert 'class="mobile-flow-parent"' not in html
+    assert 'data-action-id="sauce" data-flow-depth="2"' in html
+    assert 'data-action-id="serve" data-flow-depth="0"' in html
+    assert 'class="mobile-flow-lane' not in html
+    assert 'class="mobile-flow-out' not in html
 
 
 def test_notes_render_after_the_card_without_a_dropdown(chicken_recipe) -> None:

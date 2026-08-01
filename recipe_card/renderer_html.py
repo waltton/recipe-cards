@@ -5,7 +5,7 @@ from __future__ import annotations
 from html import escape
 
 from .layout import compute_layout
-from .models import CellBox, ComputedLayout, RecipeDocument
+from .models import CellBox, ComputedLayout, ProcessCell, RecipeDocument, Stage
 from .typography import fit_cell_text, shared_font_size
 
 
@@ -142,6 +142,75 @@ def _render_mobile_process(document: RecipeDocument) -> str:
     """Render readable, swipeable process stages for narrow screens."""
 
     row_index = {row.id: index for index, row in enumerate(document.rows)}
+    stage_index = {stage.id: index for index, stage in enumerate(document.stages)}
+    stage_entries: list[tuple[Stage, list[ProcessCell]]] = []
+    for stage in document.stages:
+        stage_cells = [
+            cell
+            for cell in document.cells
+            if cell.stage_start == stage.id and cell.text
+        ]
+        stage_cells.sort(key=lambda cell: (row_index[cell.rows.from_id], row_index[cell.rows.to_id], cell.id))
+        if stage_cells:
+            stage_entries.append((stage, stage_cells))
+    stage_number_by_id = {stage.id: number for number, (stage, _) in enumerate(stage_entries, start=1)}
+
+    process_cells = [cell for _, cells in stage_entries for cell in cells]
+
+    def parent_cell_for(cell: ProcessCell) -> ProcessCell | None:
+        start = row_index[cell.rows.from_id]
+        end = row_index[cell.rows.to_id]
+        candidates = [
+            candidate
+            for candidate in process_cells
+            if stage_index[candidate.stage_start] > stage_index[cell.stage_end]
+            and row_index[candidate.rows.from_id] <= start
+            and row_index[candidate.rows.to_id] >= end
+        ]
+        if not candidates:
+            return None
+        return min(
+            candidates,
+            key=lambda candidate: (
+                stage_index[candidate.stage_start],
+                row_index[candidate.rows.to_id] - row_index[candidate.rows.from_id],
+                candidate.id,
+            ),
+        )
+
+    def ancestor_path(cell: ProcessCell) -> list[ProcessCell]:
+        path: list[ProcessCell] = []
+        parent = parent_cell_for(cell)
+        while parent is not None:
+            path.append(parent)
+            parent = parent_cell_for(parent)
+        path.reverse()
+        return path
+
+    def render_flow_tree(node: dict[str, object]) -> str:
+        groups = node["groups"]
+        assert isinstance(groups, dict)
+        items = node["items"]
+        assert isinstance(items, list)
+        rendered: list[str] = []
+        for kind, value in items:
+            if kind == "action":
+                rendered.append(str(value))
+                continue
+            group = groups[str(value)]
+            assert isinstance(group, dict)
+            group_items = group["items"]
+            assert isinstance(group_items, list)
+            children = render_flow_tree(group)
+            if len(group_items) == 1:
+                rendered.append(children)
+                continue
+            rendered.append(
+                f'<section class="mobile-flow-group" data-flow-result="{escape(str(value), quote=True)}">'
+                f'<div class="mobile-flow-children">{children}</div></section>'
+            )
+        return "".join(rendered)
+
     grocery_items = "\n".join(
         f"""          <li class="mobile-grocery-item">
             <label><input type="checkbox" data-grocery-id="{escape(row.id, quote=True)}"><span>{escape(row.label)}</span></label>
@@ -163,16 +232,8 @@ def _render_mobile_process(document: RecipeDocument) -> str:
         </ul>
       </section>"""
     action_panels: list[str] = []
-    for stage in document.stages:
-        cells = [
-            cell
-            for cell in document.cells
-            if cell.stage_start == stage.id and cell.text
-        ]
-        cells.sort(key=lambda cell: (row_index[cell.rows.from_id], row_index[cell.rows.to_id], cell.id))
-        if not cells:
-            continue
-        actions: list[str] = []
+    for stage, cells in stage_entries:
+        flow_tree: dict[str, object] = {"groups": {}, "items": []}
         for cell in cells:
             start = row_index[cell.rows.from_id]
             end = row_index[cell.rows.to_id]
@@ -182,14 +243,29 @@ def _render_mobile_process(document: RecipeDocument) -> str:
             else:
                 inputs = f"<span>{len(labels)} ingredient lanes</span>"
             name = "" if cell.id.startswith("step_") else f'<h3>{escape(_humanize_id(cell.id))}</h3>'
-            actions.append(
-                f"""          <article class="mobile-action">
+            path = ancestor_path(cell)
+            action = f"""<article class="mobile-action" data-action-id="{escape(cell.id, quote=True)}" data-flow-depth="{len(path)}">
             <div class="mobile-inputs" aria-label="Inputs">{inputs}</div>
             {name}
             <p class="mobile-instruction">{escape(cell.text)}</p>
           </article>"""
-            )
-        stage_number = len(action_panels) + 1
+            node = flow_tree
+            for ancestor in path:
+                groups = node["groups"]
+                items = node["items"]
+                assert isinstance(groups, dict)
+                assert isinstance(items, list)
+                if ancestor.id not in groups:
+                    groups[ancestor.id] = {"groups": {}, "items": []}
+                    items.append(("group", ancestor.id))
+                child = groups[ancestor.id]
+                assert isinstance(child, dict)
+                node = child
+            items = node["items"]
+            assert isinstance(items, list)
+            items.append(("action", action))
+        actions = render_flow_tree(flow_tree)
+        stage_number = stage_number_by_id[stage.id]
         action_panels.append(
             f"""      <section class="mobile-stage" data-stage-number="{stage_number}" role="listitem">
         <header class="mobile-stage-heading">
@@ -197,7 +273,7 @@ def _render_mobile_process(document: RecipeDocument) -> str:
           <span>{len(cells)} {"action" if len(cells) == 1 else "actions"}</span>
         </header>
         <div class="mobile-action-list">
-{chr(10).join(actions)}
+{actions}
         </div>
       </section>"""
         )

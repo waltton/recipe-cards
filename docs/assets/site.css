@@ -482,7 +482,11 @@ a:focus-visible,
   }
 
   .mobile-stage-number { color: var(--recipe-accent); font-size: .78rem; font-weight: 800; letter-spacing: .12em; margin: 0; text-transform: uppercase; }
-  .mobile-action-list { display: flex; flex-direction: column; gap: .55rem; }
+  .mobile-action-list {
+    display: flex;
+    flex-direction: column;
+    gap: .35rem;
+  }
 
   .mobile-grocery-heading { margin-bottom: .75rem; }
   .mobile-grocery-heading h3 { font-family: Georgia, "Times New Roman", serif; font-size: 1.65rem; line-height: 1.05; margin: 0; }
@@ -513,10 +517,26 @@ a:focus-visible,
 
   .mobile-grocery-item input:checked + span { color: var(--recipe-secondary); text-decoration: line-through; }
 
+  .mobile-flow-group {
+    border-left: 3px solid var(--recipe-accent);
+    margin: 0;
+    padding: 0 0 0 .25rem;
+    position: relative;
+  }
+
+  .mobile-flow-children {
+    display: flex;
+    flex-direction: column;
+    gap: .35rem;
+    margin-left: 0;
+    padding-left: .25rem;
+  }
+
   .mobile-action {
-    background: var(--cell-background, #fff);
+    background: transparent;
     border-left: 4px solid var(--recipe-accent);
-    padding: .65rem .75rem .7rem;
+    min-width: 0;
+    padding: .45rem .55rem .5rem;
   }
 
   .mobile-action h3 {
@@ -527,7 +547,12 @@ a:focus-visible,
     text-transform: uppercase;
   }
 
-  .mobile-inputs { display: flex; flex-wrap: wrap; gap: .25rem; }
+  .mobile-inputs {
+    align-items: center;
+    display: flex;
+    gap: .25rem;
+    flex-wrap: wrap;
+  }
 
   .mobile-inputs span {
     background: color-mix(in srgb, var(--recipe-accent) 10%, transparent);
