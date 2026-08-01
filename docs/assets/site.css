@@ -395,6 +395,7 @@ a:focus-visible,
   .has-mobile-process .diagram-section { display: none; }
 
   .mobile-process {
+    --flow-bar-width: 3px;
     display: flex;
     flex: 1 1 auto;
     flex-direction: column;
@@ -483,9 +484,11 @@ a:focus-visible,
 
   .mobile-stage-number { color: var(--recipe-accent); font-size: .78rem; font-weight: 800; letter-spacing: .12em; margin: 0; text-transform: uppercase; }
   .mobile-action-list {
+    --flow-indent: .42rem;
     display: flex;
     flex-direction: column;
     gap: .35rem;
+    padding-left: calc(var(--flow-lane-count) * var(--flow-indent));
   }
 
   .mobile-grocery-heading { margin-bottom: .75rem; }
@@ -495,7 +498,7 @@ a:focus-visible,
 
   .mobile-grocery-item {
     background: var(--cell-background, #fff);
-    border-left: 4px solid var(--recipe-accent);
+    border-left: var(--flow-bar-width) solid var(--recipe-accent);
   }
 
   .mobile-grocery-item label {
@@ -518,10 +521,20 @@ a:focus-visible,
   .mobile-grocery-item input:checked + span { color: var(--recipe-secondary); text-decoration: line-through; }
 
   .mobile-flow-group {
-    border-left: 3px solid var(--recipe-accent);
     margin: 0;
-    padding: 0 0 0 .25rem;
+    padding: 0;
     position: relative;
+  }
+
+  .mobile-flow-group::before {
+    background: var(--recipe-accent);
+    bottom: 0;
+    content: "";
+    left: calc((var(--flow-group-lane) - var(--flow-lane-count)) * var(--flow-indent));
+    opacity: clamp(.45, calc(.45 + (var(--flow-group-lane) * .2)), .9);
+    position: absolute;
+    top: 0;
+    width: var(--flow-bar-width);
   }
 
   .mobile-flow-children {
@@ -529,12 +542,12 @@ a:focus-visible,
     flex-direction: column;
     gap: .35rem;
     margin-left: 0;
-    padding-left: .25rem;
+    padding-left: 0;
   }
 
   .mobile-action {
     background: transparent;
-    border-left: 4px solid var(--recipe-accent);
+    border-left: var(--flow-bar-width) solid var(--recipe-accent);
     min-width: 0;
     padding: .45rem .55rem .5rem;
   }

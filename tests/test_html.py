@@ -73,8 +73,16 @@ def test_phone_view_groups_actions_into_swipeable_stages(chicken_recipe) -> None
     assert 'data-flow-result="sauce"' in html
     assert html.count('data-flow-result="combined"') == 3
     assert 'class="mobile-flow-parent"' not in html
+    assert 'aria-label="Recipe stages" style="--flow-lane-count: 3"' in html
+    assert 'data-flow-result="serve" style="--flow-group-lane: 0"' in html
+    assert 'data-flow-result="combined" style="--flow-group-lane: 1"' in html
+    assert 'data-flow-result="sauce" style="--flow-group-lane: 2"' in html
     assert 'data-action-id="sauce" data-flow-depth="2"' in html
     assert 'data-action-id="serve" data-flow-depth="0"' in html
+    assert '<div class="mobile-inputs" aria-label="Inputs"><span>Pasta cooked</span></div>\n            <h3>Pasta ready</h3>' in html
+    assert '<span>Aromatics</span><span>Milk mixture</span><span>2 cups fresh spinach</span>' in html
+    assert '<span>Pasta ready</span><span>Chicken ready</span><span>Sauce</span>' in html
+    assert '<span>Combined</span><span>Garnish ready</span>' in html
     assert 'class="mobile-flow-lane' not in html
     assert 'class="mobile-flow-out' not in html
 

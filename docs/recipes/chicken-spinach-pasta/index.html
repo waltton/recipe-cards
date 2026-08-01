@@ -203,7 +203,7 @@
   </div>
 </figure>
       </section>
-      <section class="mobile-process" data-mobile-process aria-label="Recipe stages">
+      <section class="mobile-process" data-mobile-process aria-label="Recipe stages" style="--flow-lane-count: 3">
         <header class="mobile-process-bar">
           <p>Swipe through the recipe</p>
           <div class="mobile-stage-controls">
@@ -267,7 +267,7 @@
           <span>5 actions</span>
         </header>
         <div class="mobile-action-list">
-<section class="mobile-flow-group" data-flow-result="serve"><div class="mobile-flow-children"><section class="mobile-flow-group" data-flow-result="combined"><div class="mobile-flow-children"><article class="mobile-action" data-action-id="pasta_cooked" data-flow-depth="3">
+<section class="mobile-flow-group" data-flow-result="serve" style="--flow-group-lane: 0"><div class="mobile-flow-children"><section class="mobile-flow-group" data-flow-result="combined" style="--flow-group-lane: 1"><div class="mobile-flow-children"><article class="mobile-action" data-action-id="pasta_cooked" data-flow-depth="3">
             <div class="mobile-inputs" aria-label="Inputs"><span>340g pasta</span></div>
             <h3>Pasta cooked</h3>
             <p class="mobile-instruction">cook until
@@ -277,7 +277,7 @@ al dente</p>
             <h3>Seasoned chicken</h3>
             <p class="mobile-instruction">season
 both sides</p>
-          </article><section class="mobile-flow-group" data-flow-result="sauce"><div class="mobile-flow-children"><article class="mobile-action" data-action-id="prepared_aromatics" data-flow-depth="4">
+          </article><section class="mobile-flow-group" data-flow-result="sauce" style="--flow-group-lane: 2"><div class="mobile-flow-children"><article class="mobile-action" data-action-id="prepared_aromatics" data-flow-depth="4">
             <div class="mobile-inputs" aria-label="Inputs"><span>2–3 garlic cloves, minced</span><span>1.5 oz (43 g) sun-dried tomatoes</span></div>
             <h3>Prepared aromatics</h3>
             <p class="mobile-instruction">prepare aromatics</p>
@@ -298,19 +298,19 @@ both sides</p>
           <span>3 actions</span>
         </header>
         <div class="mobile-action-list">
-<section class="mobile-flow-group" data-flow-result="combined"><div class="mobile-flow-children"><article class="mobile-action" data-action-id="pasta_ready" data-flow-depth="2">
-            <div class="mobile-inputs" aria-label="Inputs"><span>340g pasta</span></div>
+<section class="mobile-flow-group" data-flow-result="combined" style="--flow-group-lane: 1"><div class="mobile-flow-children"><article class="mobile-action" data-action-id="pasta_ready" data-flow-depth="2">
+            <div class="mobile-inputs" aria-label="Inputs"><span>Pasta cooked</span></div>
             <h3>Pasta ready</h3>
             <p class="mobile-instruction">drain; set aside</p>
           </article><article class="mobile-action" data-action-id="chicken_cooked" data-flow-depth="3">
-            <div class="mobile-inputs" aria-label="Inputs"><span>500g chicken breast</span><span>salt + pepper to taste</span><span>1 tsp Italian seasoning</span><span>2 tbsp (30 mL) olive oil</span></div>
+            <div class="mobile-inputs" aria-label="Inputs"><span>Seasoned chicken</span><span>2 tbsp (30 mL) olive oil</span></div>
             <h3>Chicken cooked</h3>
             <p class="mobile-instruction">cook in skillet
 6–8 min per side
 
 165°F / 74°C</p>
           </article><article class="mobile-action" data-action-id="aromatics" data-flow-depth="3">
-            <div class="mobile-inputs" aria-label="Inputs"><span>2–3 garlic cloves, minced</span><span>1.5 oz (43 g) sun-dried tomatoes</span></div>
+            <div class="mobile-inputs" aria-label="Inputs"><span>Prepared aromatics</span></div>
             <h3>Aromatics</h3>
             <p class="mobile-instruction">sauté in same pan
 1–2 min</p>
@@ -323,13 +323,13 @@ both sides</p>
           <span>2 actions</span>
         </header>
         <div class="mobile-action-list">
-<section class="mobile-flow-group" data-flow-result="combined"><div class="mobile-flow-children"><article class="mobile-action" data-action-id="chicken_ready" data-flow-depth="2">
-            <div class="mobile-inputs" aria-label="Inputs"><span>500g chicken breast</span><span>salt + pepper to taste</span><span>1 tsp Italian seasoning</span><span>2 tbsp (30 mL) olive oil</span></div>
+<section class="mobile-flow-group" data-flow-result="combined" style="--flow-group-lane: 1"><div class="mobile-flow-children"><article class="mobile-action" data-action-id="chicken_ready" data-flow-depth="2">
+            <div class="mobile-inputs" aria-label="Inputs"><span>Chicken cooked</span></div>
             <h3>Chicken ready</h3>
             <p class="mobile-instruction">rest briefly;
 slice thinly</p>
           </article><article class="mobile-action" data-action-id="sauce" data-flow-depth="2">
-            <div class="mobile-inputs" aria-label="Inputs"><span>6 ingredient lanes</span></div>
+            <div class="mobile-inputs" aria-label="Inputs"><span>Aromatics</span><span>Milk mixture</span><span>2 cups fresh spinach</span></div>
             <h3>Sauce</h3>
             <p class="mobile-instruction">add milk mixture
 + spinach
@@ -346,7 +346,7 @@ wilt spinach</p>
         </header>
         <div class="mobile-action-list">
 <article class="mobile-action" data-action-id="combined" data-flow-depth="1">
-            <div class="mobile-inputs" aria-label="Inputs"><span>11 ingredient lanes</span></div>
+            <div class="mobile-inputs" aria-label="Inputs"><span>Pasta ready</span><span>Chicken ready</span><span>Sauce</span></div>
             <h3>Combined</h3>
             <p class="mobile-instruction">stir together
 
@@ -363,7 +363,7 @@ pasta
         </header>
         <div class="mobile-action-list">
 <article class="mobile-action" data-action-id="serve" data-flow-depth="0">
-            <div class="mobile-inputs" aria-label="Inputs"><span>12 ingredient lanes</span></div>
+            <div class="mobile-inputs" aria-label="Inputs"><span>Combined</span><span>Garnish ready</span></div>
             <h3>Serve</h3>
             <p class="mobile-instruction">top
 and

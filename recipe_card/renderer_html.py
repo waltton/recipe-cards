@@ -187,6 +187,58 @@ def _render_mobile_process(document: RecipeDocument) -> str:
         path.reverse()
         return path
 
+    def overlaps(first: ProcessCell, second: ProcessCell) -> bool:
+        return (
+            row_index[first.rows.from_id] <= row_index[second.rows.to_id]
+            and row_index[first.rows.to_id] >= row_index[second.rows.from_id]
+        )
+
+    def cells_at_stage(index: int) -> list[ProcessCell]:
+        cells = [
+            cell
+            for cell in document.cells
+            if stage_index[cell.stage_start] <= index <= stage_index[cell.stage_end]
+        ]
+        cells.sort(key=lambda cell: (row_index[cell.rows.from_id], row_index[cell.rows.to_id], cell.id))
+        return cells
+
+    def process_name(cell: ProcessCell) -> str:
+        return "Previous action" if cell.id.startswith("step_") else _humanize_id(cell.id)
+
+    def source_before_wait(cell: ProcessCell) -> ProcessCell | None:
+        candidates = [
+            candidate
+            for candidate in process_cells
+            if candidate.rows == cell.rows
+            and stage_index[candidate.stage_end] < stage_index[cell.stage_start]
+        ]
+        return max(candidates, key=lambda candidate: stage_index[candidate.stage_end], default=None)
+
+    def input_labels_for(cell: ProcessCell) -> list[str]:
+        start = row_index[cell.rows.from_id]
+        end = row_index[cell.rows.to_id]
+        current_stage = stage_index[cell.stage_start]
+        if current_stage == 0:
+            return [row.label for row in document.rows[start : end + 1]]
+
+        labels: list[str] = []
+        for source in cells_at_stage(current_stage - 1):
+            if not overlaps(source, cell):
+                continue
+            if source.text:
+                labels.append(process_name(source))
+                continue
+            earlier_source = source_before_wait(source)
+            if earlier_source is not None:
+                labels.append(process_name(earlier_source))
+                continue
+            source_start = max(start, row_index[source.rows.from_id])
+            source_end = min(end, row_index[source.rows.to_id])
+            labels.extend(row.label for row in document.rows[source_start : source_end + 1])
+        return list(dict.fromkeys(labels))
+
+    group_lane_by_id: dict[str, int] = {}
+
     def render_flow_tree(node: dict[str, object]) -> str:
         groups = node["groups"]
         assert isinstance(groups, dict)
@@ -201,12 +253,15 @@ def _render_mobile_process(document: RecipeDocument) -> str:
             assert isinstance(group, dict)
             group_items = group["items"]
             assert isinstance(group_items, list)
-            children = render_flow_tree(group)
             if len(group_items) == 1:
-                rendered.append(children)
+                rendered.append(render_flow_tree(group))
                 continue
+            group_id = str(value)
+            lane = group_lane_by_id.setdefault(group_id, len(group_lane_by_id))
+            children = render_flow_tree(group)
             rendered.append(
-                f'<section class="mobile-flow-group" data-flow-result="{escape(str(value), quote=True)}">'
+                f'<section class="mobile-flow-group" data-flow-result="{escape(group_id, quote=True)}" '
+                f'style="--flow-group-lane: {lane}">'
                 f'<div class="mobile-flow-children">{children}</div></section>'
             )
         return "".join(rendered)
@@ -235,13 +290,8 @@ def _render_mobile_process(document: RecipeDocument) -> str:
     for stage, cells in stage_entries:
         flow_tree: dict[str, object] = {"groups": {}, "items": []}
         for cell in cells:
-            start = row_index[cell.rows.from_id]
-            end = row_index[cell.rows.to_id]
-            labels = [row.label for row in document.rows[start : end + 1]]
-            if len(labels) <= 4:
-                inputs = "".join(f"<span>{escape(label)}</span>" for label in labels)
-            else:
-                inputs = f"<span>{len(labels)} ingredient lanes</span>"
+            labels = input_labels_for(cell)
+            inputs = "".join(f"<span>{escape(label)}</span>" for label in labels)
             name = "" if cell.id.startswith("step_") else f'<h3>{escape(_humanize_id(cell.id))}</h3>'
             path = ancestor_path(cell)
             action = f"""<article class="mobile-action" data-action-id="{escape(cell.id, quote=True)}" data-flow-depth="{len(path)}">
@@ -281,7 +331,7 @@ def _render_mobile_process(document: RecipeDocument) -> str:
         return ""
     panels = [grocery_panel, *action_panels]
     final_stage = len(action_panels)
-    return f"""      <section class="mobile-process" data-mobile-process aria-label="Recipe stages">
+    return f"""      <section class="mobile-process" data-mobile-process aria-label="Recipe stages" style="--flow-lane-count: {len(group_lane_by_id)}">
         <header class="mobile-process-bar">
           <p>Swipe through the recipe</p>
           <div class="mobile-stage-controls">
