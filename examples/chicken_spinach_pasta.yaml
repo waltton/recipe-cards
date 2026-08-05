@@ -57,8 +57,9 @@ actions:
   pasta_cooked:
     from: pasta
     do: |-
-      cook until
-      al dente
+      cook in salted water
+      until al dente;
+      reserve 120 mL water
 
   pasta_ready:
     from: pasta_cooked
@@ -81,31 +82,27 @@ actions:
   chicken_ready:
     from: chicken_cooked
     do: |-
-      rest briefly;
-      slice thinly
-
-  prepared_aromatics:
-    from: [garlic, sun_dried_tomatoes]
-    do: prepare aromatics
+      transfer to a plate;
+      rest 5 min, then slice
 
   aromatics:
-    from: prepared_aromatics
+    from: [garlic, sun_dried_tomatoes]
     do: |-
       sauté in same pan
       1–2 min
 
-  milk_mixture:
-    from: [flour, milk, parmesan]
-    do: whisk until smooth
+  roux:
+    from: [aromatics, flour]
+    do: stir in flour; cook 1 min
 
   sauce:
-    from: [aromatics, milk_mixture, spinach]
+    from: [roux, milk, parmesan, spinach]
     do: |-
-      add milk mixture
-      + spinach
+      gradually whisk in milk;
+      simmer until thick
 
-      bubble until thick;
-      wilt spinach
+      lower heat; stir in
+      Parmesan + spinach
 
   combined:
     from: [pasta_ready, chicken_ready, sauce]
@@ -115,6 +112,9 @@ actions:
       pasta
       + sauce
       + sliced chicken
+
+      loosen with pasta water
+      as needed
 
   garnish_ready:
     from: garnish
