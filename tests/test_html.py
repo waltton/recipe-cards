@@ -64,25 +64,17 @@ def test_phone_view_groups_actions_into_swipeable_stages(chicken_recipe) -> None
     assert html.count('role="listitem">') == 6
     assert html.count('type="checkbox" data-grocery-id=') == 12
     assert "Check off ingredients as you shop." in html
+    assert 'class="mobile-grocery-section" aria-label="Pantry"' in html
+    assert '<h3>Produce</h3>' in html
     assert "340g pasta" in html
     assert "Swipe through the recipe" in html
-    assert "cook until\nal dente" in html
+    assert "cook in salted water\nuntil al dente;\nreserve 120 mL water" in html
     assert 'data-action-id="pasta_cooked"' in html
-    assert html.count('class="mobile-action"') == 12
-    assert 'data-flow-result="serve"' in html
-    assert 'data-flow-result="sauce"' in html
-    assert html.count('data-flow-result="combined"') == 3
+    assert html.count('class="mobile-action"') == 11
+    assert 'data-action-id="sauce"' in html
+    assert 'data-action-id="serve"' in html
     assert 'class="mobile-flow-parent"' not in html
-    assert 'aria-label="Recipe stages" style="--flow-lane-count: 3"' in html
-    assert 'data-flow-result="serve" style="--flow-group-lane: 0"' in html
-    assert 'data-flow-result="combined" style="--flow-group-lane: 1"' in html
-    assert 'data-flow-result="sauce" style="--flow-group-lane: 2"' in html
-    assert 'data-action-id="sauce" data-flow-depth="2"' in html
-    assert 'data-action-id="serve" data-flow-depth="0"' in html
-    assert '<div class="mobile-inputs" aria-label="Inputs"><span>Pasta cooked</span></div>\n            <h3>Pasta ready</h3>' in html
-    assert '<span>Aromatics</span><span>Milk mixture</span><span>2 cups fresh spinach</span>' in html
-    assert '<span>Pasta ready</span><span>Chicken ready</span><span>Sauce</span>' in html
-    assert '<span>Combined</span><span>Garnish ready</span>' in html
+    assert '<span>Roux</span><span>2 cups (475 mL) milk</span><span>1 cup grated Parmesan</span><span>2 cups fresh spinach</span>' in html
     assert 'class="mobile-flow-lane' not in html
     assert 'class="mobile-flow-out' not in html
 

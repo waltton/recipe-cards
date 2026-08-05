@@ -194,16 +194,16 @@ def _rows(data: Any) -> tuple[IngredientRow, ...]:
 
 
 def _ingredients(data: Any) -> tuple[IngredientRow, ...]:
-    """Parse compact ``ingredient_id: label`` row mappings."""
+    """Parse compact ingredients, optionally grouped by grocery section."""
 
     items = _mapping(data, "ingredients")
     rows: list[IngredientRow] = []
-    for raw_id, value in items.items():
-        row_id = _string(raw_id, "ingredients key")
-        path = f"ingredients.{row_id}"
+
+    def append_ingredient(raw_id: Any, value: Any, path: str, category: str = "") -> None:
+        row_id = _string(raw_id, f"{path} key")
         if isinstance(value, str):
-            rows.append(IngredientRow(id=row_id, label=value))
-            continue
+            rows.append(IngredientRow(id=row_id, label=value, category=category))
+            return
         item = _mapping(value, path)
         _reject_unknown(item, {"label", "height"}, path)
         height = item.get("height")
@@ -212,8 +212,20 @@ def _ingredients(data: Any) -> tuple[IngredientRow, ...]:
                 id=row_id,
                 label=_string(_required(item, "label", path), f"{path}.label"),
                 height=None if height is None else _integer(height, f"{path}.height"),
+                category=category,
             )
         )
+
+    for raw_id, value in items.items():
+        name = _string(raw_id, "ingredients key")
+        path = f"ingredients.{name}"
+        if isinstance(value, Mapping) and "label" not in value and "height" not in value:
+            if not value:
+                raise RecipeValidationError(f"{path} grocery section must contain at least one ingredient")
+            for ingredient_id, ingredient_value in value.items():
+                append_ingredient(ingredient_id, ingredient_value, f"{path}.{ingredient_id}", name)
+            continue
+        append_ingredient(raw_id, value, path)
     return tuple(rows)
 
 

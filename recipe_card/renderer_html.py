@@ -5,7 +5,7 @@ from __future__ import annotations
 from html import escape
 
 from .layout import compute_layout
-from .models import CellBox, ComputedLayout, ProcessCell, RecipeDocument, Stage
+from .models import CellBox, ComputedLayout, IngredientRow, ProcessCell, RecipeDocument, Stage
 from .typography import fit_cell_text, shared_font_size
 
 
@@ -266,12 +266,32 @@ def _render_mobile_process(document: RecipeDocument) -> str:
             )
         return "".join(rendered)
 
-    grocery_items = "\n".join(
-        f"""          <li class="mobile-grocery-item">
+    def grocery_item(row: IngredientRow) -> str:
+        return f"""          <li class="mobile-grocery-item">
             <label><input type="checkbox" data-grocery-id="{escape(row.id, quote=True)}"><span>{escape(row.label)}</span></label>
           </li>"""
-        for row in document.rows
-    )
+
+    categorized_rows: dict[str, list[IngredientRow]] = {}
+    for row in document.rows:
+        categorized_rows.setdefault(row.category or "Other", []).append(row)
+    if any(row.category for row in document.rows):
+        sections: list[str] = []
+        for category, rows in categorized_rows.items():
+            items = "\n".join(grocery_item(row) for row in rows)
+            sections.append(
+                f"""        <section class="mobile-grocery-section" aria-label="{escape(category, quote=True)}">
+          <h3>{escape(category)}</h3>
+          <ul class="mobile-grocery-list">
+{items}
+          </ul>
+        </section>"""
+            )
+        grocery_items = "\n".join(sections)
+    else:
+        items = "\n".join(grocery_item(row) for row in document.rows)
+        grocery_items = f"""        <ul class="mobile-grocery-list">
+{items}
+        </ul>"""
     grocery_count = len(document.rows)
     grocery_panel = f"""      <section class="mobile-stage mobile-grocery-stage" data-stage-number="0" role="listitem">
         <header class="mobile-stage-heading">
@@ -282,9 +302,7 @@ def _render_mobile_process(document: RecipeDocument) -> str:
           <h3>Groceries</h3>
           <p>Check off ingredients as you shop.</p>
         </div>
-        <ul class="mobile-grocery-list">
 {grocery_items}
-        </ul>
       </section>"""
     action_panels: list[str] = []
     for stage, cells in stage_entries:

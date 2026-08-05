@@ -71,14 +71,16 @@ When `ingredient_column_width` is omitted, the renderer measures the widest ingr
 
 ## `ingredients` + `actions` + `final` (recommended)
 
-Ingredients are declared once as `ingredient_id: label`. Each action mapping key names the result it produces, `from` names one input or a list of inputs, and `do` contains its instruction. `final` names the last action result:
+Ingredients are declared once as `ingredient_id: label`. Nest ingredients under a grocery-section name to group the mobile grocery checklist. Each action mapping key names the result it produces, `from` names one input or a list of inputs, and `do` contains its instruction. `final` names the last action result:
 
 ```yaml
 ingredients:
-  pasta: 12 oz pasta
-  tomatoes: 2 cups tomatoes
-  stock: 1 cup stock
-  garnish: chopped parsley
+  Pantry:
+    pasta: 12 oz pasta
+    stock: 1 cup stock
+  Produce:
+    tomatoes: 2 cups tomatoes
+    garnish: chopped parsley
 
 actions:
   cooked_pasta:

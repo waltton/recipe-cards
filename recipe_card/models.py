@@ -81,6 +81,7 @@ class IngredientRow:
     id: str
     label: str
     height: int | None = None
+    category: str = ""
 
 
 @dataclass(frozen=True)

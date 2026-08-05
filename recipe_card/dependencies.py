@@ -4,6 +4,7 @@ from __future__ import annotations
 
 from collections import Counter
 from collections.abc import Mapping, Sequence
+from dataclasses import replace
 from typing import Any
 
 from .exceptions import RecipeValidationError
@@ -134,5 +135,5 @@ def compile_dependencies(
         }
         return result
 
-    return compile_flow({final_id: nested_value(final_id)}, layout, theme)
-
+    rows, stages, cells = compile_flow({final_id: nested_value(final_id)}, layout, theme)
+    return tuple(replace(row, category=ingredient_by_id[row.id].category) for row in rows), stages, cells

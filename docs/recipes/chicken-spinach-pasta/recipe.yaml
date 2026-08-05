@@ -40,18 +40,23 @@ layout:
   text_line_spacing: 1.12
 
 ingredients:
-  pasta: 340g pasta
-  chicken: 500g chicken breast
-  salt_pepper: salt + pepper to taste
-  italian_seasoning: 1 tsp Italian seasoning
-  olive_oil: 2 tbsp (30 mL) olive oil
-  garlic: 2–3 garlic cloves, minced
-  sun_dried_tomatoes: 43 g sun-dried tomatoes
-  flour: 2 tbsp flour
-  milk: 2 cups (475 mL) milk
-  parmesan: 1 cup grated Parmesan
-  spinach: 2 cups fresh spinach
-  garnish: 2 tbsp parsley + black pepper
+  Pantry:
+    pasta: 340g pasta
+    olive_oil: 2 tbsp (30 mL) olive oil
+    sun_dried_tomatoes: 43 g sun-dried tomatoes
+    flour: 2 tbsp flour
+  Meat:
+    chicken: 500g chicken breast
+  Spices:
+    salt_pepper: salt + pepper to taste
+    italian_seasoning: 1 tsp Italian seasoning
+  Produce:
+    garlic: 2–3 garlic cloves, minced
+    spinach: 2 cups fresh spinach
+    garnish: 2 tbsp parsley + black pepper
+  Dairy:
+    milk: 2 cups (475 mL) milk
+    parmesan: 1 cup grated Parmesan
 
 actions:
   pasta_cooked:

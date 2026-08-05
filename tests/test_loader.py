@@ -83,6 +83,24 @@ steps:
     assert document.cells[1].rows.to_id == "sauce"
 
 
+def test_grocery_sections_preserve_ingredient_categories() -> None:
+    document = loads_recipe("""
+version: 1
+card: {title: Groceries}
+ingredients:
+  Pantry: {pasta: 12 oz pasta}
+  Produce: {tomatoes: 2 cups tomatoes}
+actions:
+  cooked: {from: pasta, do: cook}
+  served: {from: [cooked, tomatoes], do: serve}
+final: served
+""")
+    assert [(row.id, row.category) for row in document.rows] == [
+        ("pasta", "Pantry"),
+        ("tomatoes", "Produce"),
+    ]
+
+
 def test_compact_and_expanded_sections_cannot_be_mixed() -> None:
     source = """
 version: 1

@@ -494,6 +494,8 @@ a:focus-visible,
   .mobile-grocery-heading { margin-bottom: .75rem; }
   .mobile-grocery-heading h3 { font-family: Georgia, "Times New Roman", serif; font-size: 1.65rem; line-height: 1.05; margin: 0; }
   .mobile-grocery-heading p { color: var(--recipe-secondary); font-size: .82rem; margin: .25rem 0 0; }
+  .mobile-grocery-section + .mobile-grocery-section { margin-top: 1rem; }
+  .mobile-grocery-section h3 { color: var(--recipe-accent); font-size: .75rem; letter-spacing: .1em; margin: 0 0 .35rem; text-transform: uppercase; }
   .mobile-grocery-list { display: grid; gap: .4rem; list-style: none; margin: 0; padding: 0; }
 
   .mobile-grocery-item {

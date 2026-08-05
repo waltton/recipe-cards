@@ -227,24 +227,14 @@
           <h3>Groceries</h3>
           <p>Check off ingredients as you shop.</p>
         </div>
-        <ul class="mobile-grocery-list">
+        <section class="mobile-grocery-section" aria-label="Pantry">
+          <h3>Pantry</h3>
+          <ul class="mobile-grocery-list">
           <li class="mobile-grocery-item">
             <label><input type="checkbox" data-grocery-id="pasta"><span>340g pasta</span></label>
           </li>
           <li class="mobile-grocery-item">
-            <label><input type="checkbox" data-grocery-id="chicken"><span>500g chicken breast</span></label>
-          </li>
-          <li class="mobile-grocery-item">
-            <label><input type="checkbox" data-grocery-id="salt_pepper"><span>salt + pepper to taste</span></label>
-          </li>
-          <li class="mobile-grocery-item">
-            <label><input type="checkbox" data-grocery-id="italian_seasoning"><span>1 tsp Italian seasoning</span></label>
-          </li>
-          <li class="mobile-grocery-item">
             <label><input type="checkbox" data-grocery-id="olive_oil"><span>2 tbsp (30 mL) olive oil</span></label>
-          </li>
-          <li class="mobile-grocery-item">
-            <label><input type="checkbox" data-grocery-id="garlic"><span>2–3 garlic cloves, minced</span></label>
           </li>
           <li class="mobile-grocery-item">
             <label><input type="checkbox" data-grocery-id="sun_dried_tomatoes"><span>43 g sun-dried tomatoes</span></label>
@@ -252,11 +242,32 @@
           <li class="mobile-grocery-item">
             <label><input type="checkbox" data-grocery-id="flour"><span>2 tbsp flour</span></label>
           </li>
+          </ul>
+        </section>
+        <section class="mobile-grocery-section" aria-label="Meat">
+          <h3>Meat</h3>
+          <ul class="mobile-grocery-list">
           <li class="mobile-grocery-item">
-            <label><input type="checkbox" data-grocery-id="milk"><span>2 cups (475 mL) milk</span></label>
+            <label><input type="checkbox" data-grocery-id="chicken"><span>500g chicken breast</span></label>
+          </li>
+          </ul>
+        </section>
+        <section class="mobile-grocery-section" aria-label="Spices">
+          <h3>Spices</h3>
+          <ul class="mobile-grocery-list">
+          <li class="mobile-grocery-item">
+            <label><input type="checkbox" data-grocery-id="salt_pepper"><span>salt + pepper to taste</span></label>
           </li>
           <li class="mobile-grocery-item">
-            <label><input type="checkbox" data-grocery-id="parmesan"><span>1 cup grated Parmesan</span></label>
+            <label><input type="checkbox" data-grocery-id="italian_seasoning"><span>1 tsp Italian seasoning</span></label>
+          </li>
+          </ul>
+        </section>
+        <section class="mobile-grocery-section" aria-label="Produce">
+          <h3>Produce</h3>
+          <ul class="mobile-grocery-list">
+          <li class="mobile-grocery-item">
+            <label><input type="checkbox" data-grocery-id="garlic"><span>2–3 garlic cloves, minced</span></label>
           </li>
           <li class="mobile-grocery-item">
             <label><input type="checkbox" data-grocery-id="spinach"><span>2 cups fresh spinach</span></label>
@@ -264,7 +275,19 @@
           <li class="mobile-grocery-item">
             <label><input type="checkbox" data-grocery-id="garnish"><span>2 tbsp parsley + black pepper</span></label>
           </li>
-        </ul>
+          </ul>
+        </section>
+        <section class="mobile-grocery-section" aria-label="Dairy">
+          <h3>Dairy</h3>
+          <ul class="mobile-grocery-list">
+          <li class="mobile-grocery-item">
+            <label><input type="checkbox" data-grocery-id="milk"><span>2 cups (475 mL) milk</span></label>
+          </li>
+          <li class="mobile-grocery-item">
+            <label><input type="checkbox" data-grocery-id="parmesan"><span>1 cup grated Parmesan</span></label>
+          </li>
+          </ul>
+        </section>
       </section>
       <section class="mobile-stage" data-stage-number="1" role="listitem">
         <header class="mobile-stage-heading">
