@@ -6,7 +6,7 @@ card:
   source: Healthy Fitness Meals
   footer:
     - Cook pasta according to its package directions.
-    - Chicken is done at 165°F / 74°C.
+    - Chicken is done at 74°C.
 
 canvas:
   background: "#fffde8"
@@ -46,7 +46,7 @@ ingredients:
   italian_seasoning: 1 tsp Italian seasoning
   olive_oil: 2 tbsp (30 mL) olive oil
   garlic: 2–3 garlic cloves, minced
-  sun_dried_tomatoes: 1.5 oz (43 g) sun-dried tomatoes
+  sun_dried_tomatoes: 43 g sun-dried tomatoes
   flour: 2 tbsp flour
   milk: 2 cups (475 mL) milk
   parmesan: 1 cup grated Parmesan
@@ -76,7 +76,7 @@ actions:
       cook in skillet
       6–8 min per side
 
-      165°F / 74°C
+      74°C
 
   chicken_ready:
     from: chicken_cooked
@@ -123,8 +123,6 @@ actions:
   serve:
     from: [combined, garnish_ready]
     do: |-
-      top
-      and
-      serve
+      top and serve
 
 final: serve
