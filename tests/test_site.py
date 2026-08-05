@@ -48,6 +48,9 @@ def test_build_site_writes_index_pages_stylesheet_and_sources(tmp_path: Path) ->
     assert 'href="../../index.html"' in recipe_page
     assert 'href="recipe.yaml" download' in recipe_page
     assert '<body class="recipe-body has-mobile-process" style="--recipe-background:' in recipe_page
+    script = (destination / "assets/site.js").read_text(encoding="utf-8")
+    assert "#stage-" in script
+    assert "history.replaceState" in script
 
 
 def test_build_site_reads_jekyll_style_config(tmp_path: Path) -> None:

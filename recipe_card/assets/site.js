@@ -78,6 +78,7 @@
   scheduleFit();
 
   const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+  const mobileView = window.matchMedia("(max-width: 700px), (max-height: 520px) and (pointer: coarse)");
   document.querySelectorAll("[data-mobile-process]").forEach((process) => {
     const track = process.querySelector("[data-stage-track]");
     const stages = [...process.querySelectorAll(".mobile-stage")];
@@ -93,6 +94,20 @@
       return stages[index].offsetLeft - stages[0].offsetLeft;
     }
 
+    function updateStageUrl(stageNumber) {
+      if (!mobileView.matches) return;
+      const url = new URL(window.location.href);
+      url.hash = `stage-${stageNumber}`;
+      history.replaceState(null, "", url);
+    }
+
+    function stageFromUrl() {
+      const match = /^#stage-(\d+)$/.exec(window.location.hash);
+      if (!match) return 0;
+      const index = stages.findIndex((stage) => stage.dataset.stageNumber === match[1]);
+      return index === -1 ? 0 : index;
+    }
+
     function updateStage() {
       scrollQueued = false;
       const nearest = stages.reduce((current, stage, index) => (
@@ -105,6 +120,7 @@
       const stageNumber = stages[active].dataset.stageNumber ?? String(active);
       const finalStageNumber = stages[stages.length - 1].dataset.stageNumber ?? String(stages.length - 1);
       position.textContent = `Stage ${stageNumber} of ${finalStageNumber}`;
+      updateStageUrl(stageNumber);
       previous.disabled = active === 0;
       next.disabled = active === stages.length - 1;
       stages.forEach((stage, index) => {
@@ -131,6 +147,7 @@
     next.addEventListener("click", () => goToStage(active + 1));
     track.addEventListener("scroll", scheduleStageUpdate, {passive: true});
     window.addEventListener("resize", scheduleStageUpdate);
+    if (mobileView.matches) track.scrollLeft = stageLeft(stageFromUrl());
     updateStage();
   });
 })();
